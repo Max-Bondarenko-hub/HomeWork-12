@@ -3,6 +3,7 @@ from datetime import date, datetime
 import itertools
 import os
 import pickle
+import re
 
 
 class Field:
@@ -138,6 +139,17 @@ class AddressBook(UserDict):
             _ = input('Press enter for next page...')
             counter += batch_size
 
+    def searching(self, searching_phrase):
+        searching_list = []
+        if len(searching_phrase) >= 2:
+            for el in self.data.values():
+                el = str(el)
+                match = re.search(searching_phrase, el)
+                if match:
+                    searching_list.append(el)
+        return searching_list
+
+
 def storeData(adressbook, file_name='saved_addressbook.bin'):
     with open(file_name, 'wb') as bin_file:
         pickle.dump(adressbook, bin_file)
@@ -173,11 +185,15 @@ record4.remove_phone('1122334455')
 # print(record4)
 
 # Input iterator of records by batches with 2 items
-for batch in book.iterator(batch_size=10):
-    for record in batch:
-        print(record)
-        if record.birthday:
-            days = record.days_to_birthday()
-            print(f"Days to birthday: {days} day(s)")
+# for batch in book.iterator(batch_size=10):
+#     for record in batch:
+#         print(record)
+#         if record.birthday:
+#             days = record.days_to_birthday()
+#             print(f"Days to birthday: {days} day(s)")
+
+searching_phrase = input('Enter at least 2 symbols to start searching: ')
+result = book.searching(searching_phrase)
+print(result)
 
 storeData(book)
