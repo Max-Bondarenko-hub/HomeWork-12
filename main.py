@@ -160,40 +160,40 @@ def loadData():
         return readed
 
 
+if __name__ == '__main__':
+    if os.path.isfile('./saved_addressbook.bin'):
+        book = loadData()
+    else:
+        book = AddressBook()
+    record1 = Record("John Doe", "0123456789", "1990-01-15")
+    record2 = Record("Anna Smith", "9876543210", "1985-05-20")
+    record3 = Record("Bob Johnson", "1111199999")
+    record4 = Record("Tom Bombadil", "1122334455", "1995-05-20")    
 
-if os.path.isfile('./saved_addressbook.bin'):
-    book = loadData()
-else:
-    book = AddressBook()
-record1 = Record("John Doe", "0123456789", "1990-01-15")
-record2 = Record("Anna Smith", "9876543210", "1985-05-20")
-record3 = Record("Bob Johnson", "1111199999")
-record4 = Record("Tom Bombadil", "1122334455", "1995-05-20")
+    book.add_record(record1)
+    book.add_record(record2)
+    book.add_record(record3)
+    book.add_record(record4)    
 
-book.add_record(record1)
-book.add_record(record2)
-book.add_record(record3)
-book.add_record(record4)
+    # print(record1)
+    # print(record2)
+    # print(record3)
+    # print(record4)
+    record4.add_phone('1234567890')
+    # print(record4)
+    record4.remove_phone('1122334455')
+    # print(record4)    
 
-# print(record1)
-# print(record2)
-# print(record3)
-# print(record4)
-record4.add_phone('1234567890')
-# print(record4)
-record4.remove_phone('1122334455')
-# print(record4)
+    # Input iterator of records by batches with 2 items
+    # for batch in book.iterator(batch_size=10):
+    #     for record in batch:
+    #         print(record)
+    #         if record.birthday:
+    #             days = record.days_to_birthday()
+    #             print(f"Days to birthday: {days} day(s)")    
 
-# Input iterator of records by batches with 2 items
-# for batch in book.iterator(batch_size=10):
-#     for record in batch:
-#         print(record)
-#         if record.birthday:
-#             days = record.days_to_birthday()
-#             print(f"Days to birthday: {days} day(s)")
+    searching_phrase = input('Enter at least 2 symbols to start searching: ')
+    result = book.searching(searching_phrase)
+    print(result)    
 
-searching_phrase = input('Enter at least 2 symbols to start searching: ')
-result = book.searching(searching_phrase)
-print(result)
-
-storeData(book)
+    storeData(book)    
